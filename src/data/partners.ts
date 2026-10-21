@@ -12,6 +12,9 @@ export const partners: { name: string; logo: string }[] = [
   { name: 'Wikęd', logo: '/img/partnerzy/wiked.png' },
   { name: 'KMT', logo: '/img/partnerzy/kmt.png' },
   { name: 'Anwis', logo: '/img/partnerzy/anwis.png' },
+];
+
+export const financePartners: { name: string; logo: string }[] = [
   { name: 'Expander', logo: '/img/partnerzy/expander.png' },
   { name: 'Alior Bank', logo: '/img/partnerzy/alior-bank.png' },
 ];

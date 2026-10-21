@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import QuoteForm from '../components/QuoteForm.astro';
 import { site } from '../data/site';
+import { financePartners } from '../data/partners';
 
 const documents = [
   { who: 'Każdy klient', what: 'Dowód osobisty.' },
@@ -50,6 +51,12 @@ const documents = [
         <p>
           Do uzyskania decyzji ratalnej wystarczy dowód osobisty i oświadczenie klienta. Na oświadczeniu muszą się znaleźć: dane adresowe, wysokość i źródło dochodu, okres zatrudnienia, stanowisko oraz pełne dane zakładu pracy lub prowadzonej firmy (nazwa, adres, NIP, telefon). W przypadku rent i emerytur – numer świadczenia i termin, do kiedy przysługuje.
         </p>
+        <span class="eyebrow" style="margin-top:32px">Partnerzy finansowi</span>
+        <div class="partners partners--finance">
+          {financePartners.map((p) => (
+            <div class="partner"><img src={url(p.logo)} alt={p.name} loading="lazy" /></div>
+          ))}
+        </div>
       </div>
       <div class="reveal">
         <h3 style="margin-bottom:18px">Dokumenty potrzebne do zakupu na raty</h3>

@@ -671,14 +671,15 @@ p { margin: 0 0 1em; }
 
 /* ---------- partners ---------- */
 
+/* flex instead of grid so an incomplete last row sits centered */
 .partners {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   border-top: 1px solid var(--line);
 }
-@media (min-width: 640px) { .partners { grid-template-columns: repeat(3, 1fr); } }
-@media (min-width: 960px) { .partners { grid-template-columns: repeat(5, 1fr); } }
 .partner {
+  flex: 0 0 50%;
   display: grid; place-items: center;
   aspect-ratio: 2 / 1;
   padding: 24px 30px;
@@ -695,6 +696,9 @@ p { margin: 0 0 1em; }
   transition: filter .35s, opacity .35s;
 }
 .partner:hover img { filter: none; opacity: 1; }
+@media (min-width: 640px) { .partner { flex-basis: calc(100% / 3); } }
+@media (min-width: 960px) { .partner { flex-basis: 20%; } }
+.partners--finance .partner { flex-basis: 50%; }
 
 /* ---------- location ---------- */
 
