@@ -1,0 +1,266 @@
+---
+import { url } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import Partners from '../components/Partners.astro';
+import Location from '../components/Location.astro';
+import { site } from '../data/site';
+import { categories } from '../data/oferta';
+
+const slides = [
+  { img: '/img/hero-1.webp', title: 'Szeroki wybór okien PVC, drewnianych i aluminiowych', href: '/okna/', link: 'Zobacz ofertę okien' },
+  { img: '/img/hero-2.webp', title: 'Profesjonalny pomiar i montaż okien, drzwi, rolet i bram', href: '#jak-pracujemy', link: 'Jak pracujemy' },
+  { img: '/img/hero-3.webp', title: 'Sprzedaż na raty i pomoc w kredycie mieszkaniowym', href: '/kredyty-i-raty/', link: 'Sprawdź raty i kredyty' },
+];
+
+const stats = [
+  { value: '2014', text: 'rok założenia firmy Profil w Płocku' },
+  { value: '15', sup: '+', text: 'sprawdzonych producentów i marek' },
+  { value: '10', text: 'grup produktów – od okien po klamki' },
+  { value: '1', text: 'firma od doradztwa, przez pomiar, po montaż' },
+];
+
+const steps = [
+  {
+    title: 'Doradzamy',
+    text: 'Pomożemy dobrać okna, drzwi, bramę czy rolety do budynku, budżetu i Twoich oczekiwań. W salonie pokażemy próbki, kolory i okucia.',
+  },
+  {
+    title: 'Mierzymy',
+    text: 'Przyjedziemy na precyzyjny pomiar otworów. Dokładny pomiar to podstawa szczelnego, ciepłego i trwałego montażu.',
+  },
+  {
+    title: 'Montujemy',
+    text: 'Zamawiamy produkty u producenta, demontujemy stare elementy i montujemy nowe: okna, drzwi, parapety, rolety, osłony i bramy garażowe.',
+  },
+];
+
+const inspirations = [
+  { img: '/img/inspo-1.webp', title: 'Okna drewniane Softline', label: 'Okna', href: '/okna/#okna-drewniane' },
+  { img: '/img/inspo-2.webp', title: 'Drzwi wejściowe', label: 'Drzwi zewnętrzne', href: '/drzwi-zewnetrzne/' },
+  { img: '/img/inspo-3.webp', title: 'Okna PVC Iglo', label: 'Okna', href: '/okna/#okna-pvc' },
+  { img: '/img/inspo-4.webp', title: 'Rolety materiałowe', label: 'Osłony wewnętrzne', href: '/oslony-wewnetrzne/' },
+  { img: '/img/inspo-5.webp', title: 'Drzwi tarasowe HS', label: 'Systemy tarasowe', href: '/okna/#systemy-tarasowe' },
+];
+---
+
+<Base>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero__grid">
+      <div>
+        <span class="eyebrow">Płock i okolice · od 2014 roku</span>
+        <h1>Okna, drzwi i bramy <em>z montażem</em> pod klucz.</h1>
+        <div class="hero__actions">
+          <a class="call-link" href={site.phoneHref}>
+            <span class="call-link__circle"><Icon name="phone" class="" /></span>
+            <span><small>Zadzwoń do nas</small>{site.phone}</span>
+          </a>
+          <a class="btn" href="#wycena"><Icon name="arrow" class="arrow" /> Bezpłatna wycena</a>
+        </div>
+        <div class="hero__notes">
+          <p>
+            Kompleksowo: <a href={url('/okna/')}>okna</a>, <a href={url('/drzwi-zewnetrzne/')}>drzwi</a> i <a href={url('/bramy-garazowe/')}>bramy garażowe</a> od sprawdzonych producentów, a do tego <a href={url('/oslony-zewnetrzne/')}>rolety</a> i <a href={url('/parapety-wewnetrzne/')}>parapety</a>.
+          </p>
+          <p>
+            Sami doradzamy, mierzymy i montujemy. Zakup możesz rozłożyć na <a href={url('/kredyty-i-raty/')}>wygodne raty</a>.
+          </p>
+        </div>
+      </div>
+
+      <div class="slider" data-slider>
+        <div class="slider__frame">
+          {slides.map((s, i) => (
+            <div class={`slider__slide ${i === 0 ? 'is-active' : ''}`} aria-hidden={i === 0 ? undefined : 'true'}>
+              <img src={url(s.img)} alt="" width="1100" height="880" loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : undefined} />
+              <div class="slider__caption">
+                <strong>{s.title}</strong>
+                <a href={url(s.href)} tabindex={i === 0 ? undefined : -1}>{s.link}</a>
+              </div>
+            </div>
+          ))}
+          <div class="slider__nav">
+            <button type="button" data-prev aria-label="Poprzedni slajd"><Icon name="arrow-left" class="" /></button>
+            <button type="button" data-next aria-label="Następny slajd"><Icon name="arrow" class="" /></button>
+          </div>
+        </div>
+        <div class="slider__dots">
+          {slides.map((_, i) => <button type="button" aria-label={`Slajd ${i + 1}`} aria-current={i === 0 ? 'true' : 'false'} />)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LICZBY -->
+  <section class="section--tight" style="padding-block:clamp(40px,5vw,72px) 0">
+    <div class="container">
+      <div class="stats reveal">
+        {stats.map((s) => (
+          <div class="stat"><b>{s.value}{s.sup && <sup>{s.sup}</sup>}</b><span>{s.text}</span></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- OFERTA -->
+  <section class="section" id="oferta">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div>
+          <span class="eyebrow">Kompleksowo dla Twojego domu</span>
+          <h2>Oferta dla Ciebie</h2>
+        </div>
+        <p style="max-width:380px;margin:0;color:var(--muted)">
+          Wszystko, czego potrzeba do wymiany stolarki i osłon – w jednym miejscu, z pomiarem i montażem.
+        </p>
+      </div>
+      <div class="offer-grid">
+        {categories.map((c) => (
+          <article class="offer-card reveal">
+            <Icon name={c.slug} />
+            <h3>{c.title}</h3>
+            <p>{c.short}</p>
+            <a class="link-arrow" href={url(`/${c.slug}/`)}>Poznaj ofertę <Icon name="arrow" class="" /></a>
+          </article>
+        ))}
+        <article class="offer-card reveal">
+          <Icon name="raty" />
+          <h3>Kredyty i raty</h3>
+          <p>Sprzedaż ratalna oraz pomoc doradcy w uzyskaniu kredytu mieszkaniowego.</p>
+          <a class="link-arrow" href={url('/kredyty-i-raty/')}>Sprawdź <Icon name="arrow" class="" /></a>
+        </article>
+        <article class="offer-card reveal">
+          <Icon name="doradztwo" />
+          <h3>Nie wiesz, od czego zacząć?</h3>
+          <p>Zadzwoń – doradzimy, umówimy pomiar i przygotujemy bezpłatną wycenę.</p>
+          <a class="link-arrow" href={site.phoneHref}>{site.phone} <Icon name="arrow" class="" /></a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- JAK PRACUJEMY -->
+  <section class="section pt-0" id="jak-pracujemy">
+    <div class="container process">
+      <div class="process__panel reveal">
+        <span class="eyebrow">Doradztwo, pomiar i montaż</span>
+        <h2>Od pierwszej rozmowy do montażu</h2>
+        <div class="accordion" data-accordion>
+          {steps.map((s, i) => (
+            <details open={i === 0}>
+              <summary><span class="num">0{i + 1}</span>{s.title}<span class="plus" aria-hidden="true"></span></summary>
+              <div class="accordion__body"><p>{s.text}</p></div>
+            </details>
+          ))}
+        </div>
+        <a class="btn btn--ghost" href="#wycena"><Icon name="arrow" class="arrow" /> Umów bezpłatny pomiar</a>
+      </div>
+      <div class="process__media reveal">
+        <div class="photo photo--bw"><img src={url('/img/montaz.webp')} alt="Wnętrze z aluminiowymi drzwiami harmonijkowymi" width="900" height="1100" loading="lazy" /></div>
+        <div class="photo"><img src={url('/img/montaz-2.webp')} alt="Przeszklone drzwi tarasowe podnoszono-przesuwne" width="800" height="1000" loading="lazy" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSPIRACJE -->
+  <section class="section section--soft">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div>
+          <span class="eyebrow">Pomysły na Twój dom</span>
+          <h2>Inspiracje</h2>
+        </div>
+        <a class="btn btn--ghost" href={site.facebook} target="_blank" rel="noopener"><Icon name="facebook" class="" /> Nasze realizacje na Facebooku</a>
+      </div>
+      <div class="inspo">
+        {inspirations.map((it) => (
+          <a class="inspo__item reveal" href={url(it.href)}>
+            <div class="photo"><img src={url(it.img)} alt={it.title} width="900" height="900" loading="lazy" /></div>
+            <span class="inspo__label">
+              <span><small>{it.label}</small><strong>{it.title}</strong></span>
+              <Icon name="arrow" class="" />
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- RATY -->
+  <section class="section section--tight">
+    <div class="container">
+      <div class="band reveal">
+        <div>
+          <span class="eyebrow" style="color:rgba(255,255,255,.6)">Kredyty i raty</span>
+          <h2>Nowe okna teraz, płatność w ratach</h2>
+          <p>Wszystkie produkty wraz z montażem kupisz w systemie ratalnym – symulację przygotujemy w kilka minut. Przy większej inwestycji pomożemy też w kredycie mieszkaniowym.</p>
+        </div>
+        <div class="band__actions">
+          <a class="btn btn--light" href={url('/kredyty-i-raty/')}><Icon name="arrow" class="arrow" /> Kredyty i raty</a>
+          <a class="btn btn--ghost" href={site.phoneHref}>Zapytaj telefonicznie</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Partners />
+
+  <!-- SALON -->
+  <section class="section">
+    <div class="container" style="display:grid;gap:clamp(48px,6vw,80px)">
+      <Location />
+      <div class="fb-card reveal">
+        <div class="fb-card__icon"><Icon name="facebook" class="" /></div>
+        <div>
+          <h3>Zobacz nasze najnowsze realizacje</h3>
+          <p>Na Facebooku pokazujemy zakończone montaże i bieżące promocje. Polub nasz profil i bądź na bieżąco.</p>
+        </div>
+        <a class="btn" href={site.facebook} target="_blank" rel="noopener"><Icon name="arrow" class="arrow" /> Przejdź do Facebooka</a>
+      </div>
+    </div>
+  </section>
+
+  <QuoteForm />
+</Base>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-slider]').forEach((slider) => {
+    const slides = [...slider.querySelectorAll<HTMLElement>('.slider__slide')];
+    const dots = [...slider.querySelectorAll<HTMLButtonElement>('.slider__dots button')];
+    let current = 0;
+    let timer: number | undefined;
+
+    const go = (n: number) => {
+      current = (n + slides.length) % slides.length;
+      slides.forEach((s, i) => {
+        const active = i === current;
+        s.classList.toggle('is-active', active);
+        s.toggleAttribute('aria-hidden', !active);
+        s.querySelector('a')?.setAttribute('tabindex', active ? '0' : '-1');
+      });
+      dots.forEach((d, i) => d.setAttribute('aria-current', String(i === current)));
+    };
+    const restart = () => {
+      window.clearInterval(timer);
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        timer = window.setInterval(() => go(current + 1), 6500);
+      }
+    };
+
+    slider.querySelector('[data-prev]')?.addEventListener('click', () => { go(current - 1); restart(); });
+    slider.querySelector('[data-next]')?.addEventListener('click', () => { go(current + 1); restart(); });
+    dots.forEach((d, i) => d.addEventListener('click', () => { go(i); restart(); }));
+    restart();
+  });
+
+  // accordion: only one step open at a time
+  document.querySelectorAll<HTMLElement>('[data-accordion]').forEach((acc) => {
+    const items = [...acc.querySelectorAll('details')];
+    items.forEach((d) =>
+      d.addEventListener('toggle', () => {
+        if (d.open) items.forEach((o) => o !== d && (o.open = false));
+      }),
+    );
+  });
+</script>

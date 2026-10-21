@@ -1,0 +1,88 @@
+---
+import { url } from '../lib/url';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import { hasPublicFile } from '../lib/assets';
+
+const salonPhoto = hasPublicFile('img/salon.webp') ? '/img/salon.webp' : null;
+
+const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.address.mapQuery)}`;
+const mapsEmbed = `https://maps.google.com/maps?q=${encodeURIComponent(site.address.mapQuery)}&t=m&z=15&output=embed`;
+---
+
+<div class="location">
+  <div class="location__card reveal">
+    <div>
+      <span class="eyebrow">Zapraszamy</span>
+      <h2>Odwiedź nasz salon</h2>
+    </div>
+    <p style="margin:0;color:var(--muted)">
+      Zapraszamy do naszego salonu przy al. Jana Pawła II w Płocku. Na miejscu pokażemy próbki, kolory i okucia oraz pomożemy dobrać rozwiązanie.
+    </p>
+    <ul class="contact-list">
+      <li>
+        <Icon name="pin" class="" />
+        <div><small>{site.address.place}</small><span>{site.address.street}, {site.address.postalCode} {site.address.city}</span></div>
+      </li>
+      <li>
+        <Icon name="phone" class="" />
+        <div><small>Telefon</small><a href={site.phoneHref}>{site.phone}</a></div>
+      </li>
+      <li>
+        <Icon name="mail" class="" />
+        <div><small>E-mail</small><a href={`mailto:${site.email}`}>{site.email}</a></div>
+      </li>
+    </ul>
+    <div><a class="btn btn--ghost" href={mapsLink} target="_blank" rel="noopener"><Icon name="route" class="" /> Wyznacz trasę</a></div>
+  </div>
+
+  <div class:list={['location__side', { 'has-photo': salonPhoto }]}>
+    {salonPhoto && (
+      <div class="photo location__photo reveal">
+        <img src={url(salonPhoto)} alt={`Salon Profil – ${site.address.street}, ${site.address.city}`} width="1200" height="900" loading="lazy" />
+      </div>
+    )}
+    <div class="map reveal" data-map={mapsEmbed}>
+      <button class="map__load" type="button">
+        <Icon name="pin" class="" />
+        <span><strong>Pokaż mapę dojazdu</strong><small>Mapa Google załaduje się po kliknięciu</small></span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .location__side { display: grid; }
+  .location__side.has-photo { grid-template-rows: auto minmax(220px, 1fr); }
+  .location__side.has-photo .map { min-height: 220px; }
+  .location__photo { aspect-ratio: 4 / 3; }
+  .map__load {
+    position: absolute; inset: 0;
+    width: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+    border: 0; cursor: pointer;
+    font: inherit; color: var(--ink);
+    background:
+      radial-gradient(circle at 50% 46%, rgba(164, 42, 47, .12) 0 60px, transparent 61px),
+      repeating-linear-gradient(0deg, transparent 0 39px, rgba(32, 57, 111, .07) 39px 40px),
+      repeating-linear-gradient(90deg, transparent 0 39px, rgba(32, 57, 111, .07) 39px 40px),
+      var(--bg-soft);
+  }
+  .map__load :global(svg) { width: 40px; height: 40px; color: var(--red); }
+  .map__load span { display: grid; text-align: center; }
+  .map__load small { color: var(--muted); font-size: .85rem; }
+  .map__load:hover strong { color: var(--red); }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-map]').forEach((box) => {
+    box.querySelector('button')?.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = box.dataset.map!;
+      iframe.title = 'Mapa dojazdu do salonu Profil';
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      box.replaceChildren(iframe);
+    });
+  });
+</script>

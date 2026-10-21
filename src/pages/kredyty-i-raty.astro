@@ -1,0 +1,85 @@
+---
+import { url } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import { site } from '../data/site';
+
+const documents = [
+  { who: 'Każdy klient', what: 'Dowód osobisty.' },
+  { who: 'Zatrudnieni na umowę o pracę', what: 'Ustne oświadczenie: nazwa i adres zakładu pracy, telefon, NIP, okres zatrudnienia, stanowisko i wysokość zarobków.' },
+  { who: 'Emeryci i renciści', what: 'Do wglądu legitymacja emeryta lub rencisty oraz numer świadczenia.' },
+  { who: 'Prowadzący gospodarstwo rolne', what: 'Zaświadczenie z urzędu gminy o posiadaniu gospodarstwa i wysokości dochodów.' },
+  { who: 'Prowadzący działalność gospodarczą', what: 'Wpis do ewidencji działalności gospodarczej, NIP i REGON (oryginały do wglądu).' },
+];
+---
+
+<Base title="Kredyty i raty" description="Okna, drzwi, bramy i rolety z montażem na raty. Symulacja ratalna w kilka minut, pomoc doradcy w kredycie mieszkaniowym. Profil Płock.">
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Okruszki">
+        <a href={url('/')}>Strona główna</a><span aria-hidden="true">/</span><span aria-current="page">Kredyty i raty</span>
+      </nav>
+      <div class="page-hero__grid">
+        <div>
+          <Icon name="raty" />
+          <h1>Kredyty i raty</h1>
+          <p class="lead">
+            Wszystkie oferowane przez nas produkty – okna, drzwi, bramy, rolety – wraz z montażem możesz kupić w systemie ratalnym. Symulację przygotujemy w kilka minut.
+          </p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:28px">
+            <a class="btn btn--brand" href={site.phoneHref}><Icon name="phone" class="" /> Zapytaj o raty</a>
+            <a class="btn btn--ghost" href="#kredyty">Kredyty mieszkaniowe</a>
+          </div>
+        </div>
+        <div class="page-hero__img">
+          <img src={url('/img/raty.webp')} alt="Dom z nowymi oknami kupionymi na raty" width="900" height="620" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split" style="align-items:start">
+      <div class="prose reveal">
+        <span class="eyebrow">Zakupy na raty</span>
+        <h2 style="margin-top:0">Liczbę i wysokość rat dopasujemy do Ciebie</h2>
+        <p>
+          Współpracujemy z firmami obsługującymi sprzedaż ratalną, dzięki czemu możemy zaproponować ofertę dopasowaną do indywidualnych potrzeb.
+        </p>
+        <p>
+          Do uzyskania decyzji ratalnej wystarczy dowód osobisty i oświadczenie klienta. Na oświadczeniu muszą się znaleźć: dane adresowe, wysokość i źródło dochodu, okres zatrudnienia, stanowisko oraz pełne dane zakładu pracy lub prowadzonej firmy (nazwa, adres, NIP, telefon). W przypadku rent i emerytur – numer świadczenia i termin, do kiedy przysługuje.
+        </p>
+      </div>
+      <div class="reveal">
+        <h3 style="margin-bottom:18px">Dokumenty potrzebne do zakupu na raty</h3>
+        <div class="accordion" style="margin-top:0">
+          {documents.map((d, i) => (
+            <details open={i === 0}>
+              <summary><span class="num">0{i + 1}</span>{d.who}<span class="plus" aria-hidden="true"></span></summary>
+              <div class="accordion__body"><p>{d.what}</p></div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight pt-0" id="kredyty">
+    <div class="container">
+      <div class="band reveal">
+        <div>
+          <h2>Kredyty mieszkaniowe</h2>
+          <p>
+            Kredyt hipoteczny pozwala sfinansować nawet duże inwestycje przy oprocentowaniu niższym niż w kredycie gotówkowym. Nasz doradca finansowy przygotuje oferty kilku banków, pomoże wybrać najkorzystniejszą i skompletować dokumenty.
+          </p>
+        </div>
+        <div class="band__actions">
+          <a class="btn btn--light" href={site.phoneHref}><Icon name="phone" class="" /> Umów spotkanie: {site.phone}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <QuoteForm />
+</Base>

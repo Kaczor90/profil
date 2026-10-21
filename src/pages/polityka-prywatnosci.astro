@@ -1,0 +1,64 @@
+---
+import { url } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+
+<Base title="Polityka prywatności" description="Zasady przetwarzania danych osobowych i plików cookies w serwisie profil-okna.com.pl.">
+  <section class="page-hero page-hero--plain">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Okruszki">
+        <a href={url('/')}>Strona główna</a><span aria-hidden="true">/</span><span aria-current="page">Polityka prywatności</span>
+      </nav>
+      <h1>Polityka prywatności</h1>
+      <p class="lead" style="max-width:680px">
+        Opisujemy tu, jakie informacje na Twój temat przetwarzamy w serwisie profil-okna.com.pl i jakie masz prawa.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="prose">
+        <h2>1. Administrator danych</h2>
+        <p>
+          Administratorem danych osobowych jest Ewelina Bernaciak, prowadząca działalność pod nazwą PROFIL, ul. Jerzego Pniewskiego, Płock.
+          Kontakt: <a href={`mailto:${site.email}`}>{site.email}</a>, tel. <a href={site.phoneHref}>{site.phone}</a>.
+        </p>
+
+        <h2>2. Jakie dane i w jakim celu</h2>
+        <p>Przetwarzamy dane, które podajesz dobrowolnie w formularzu kontaktowym (imię, numer telefonu, adres e-mail, treść wiadomości), wyłącznie w celu:</p>
+        <ul>
+          <li>odpowiedzi na zapytanie i przygotowania oferty (art. 6 ust. 1 lit. b RODO – działania przed zawarciem umowy),</li>
+          <li>kontaktu w sprawie, o którą pytasz, na podstawie Twojej zgody (art. 6 ust. 1 lit. a RODO).</li>
+        </ul>
+        <p>Podanie danych jest dobrowolne, ale bez numeru telefonu nie będziemy mogli oddzwonić.</p>
+
+        <h2>3. Jak długo przechowujemy dane</h2>
+        <p>
+          Dane z zapytań przechowujemy przez czas potrzebny do obsługi sprawy, a jeśli dojdzie do zawarcia umowy – przez okres wymagany przepisami (np. podatkowymi i rachunkowymi).
+        </p>
+
+        <h2>4. Odbiorcy danych</h2>
+        <p>
+          Dane mogą być powierzone firmie hostingowej utrzymującej serwis i skrzynkę e-mail – wyłącznie w zakresie niezbędnym do działania strony. Nie przekazujemy danych poza Europejski Obszar Gospodarczy.
+        </p>
+
+        <h2>5. Twoje prawa</h2>
+        <p>Masz prawo żądać dostępu do swoich danych, ich sprostowania, usunięcia, ograniczenia przetwarzania i przeniesienia, a także wnieść sprzeciw i w dowolnym momencie cofnąć zgodę (bez wpływu na zgodność z prawem przetwarzania przed jej cofnięciem). Przysługuje Ci też skarga do Prezesa Urzędu Ochrony Danych Osobowych, ul. Stawki 2, 00-193 Warszawa.</p>
+
+        <h2>6. Pliki cookies</h2>
+        <p>
+          Serwis nie używa plików cookies do śledzenia ani statystyk. Mapa Google na stronie ładuje się dopiero po kliknięciu przycisku „Pokaż mapę dojazdu” – wtedy Google może zapisać własne pliki cookies zgodnie ze swoją
+          <a href="https://policies.google.com/privacy?hl=pl" target="_blank" rel="noopener">polityką prywatności</a>.
+          Linki do Facebooka prowadzą do serwisu zewnętrznego, który stosuje własne zasady.
+        </p>
+
+        <h2>7. Logi serwera</h2>
+        <p>
+          Serwer, na którym działa strona, może automatycznie zapisywać podstawowe informacje o połączeniu (m.in. adres IP, czas, typ przeglądarki). Służą one wyłącznie do administrowania serwisem i zapewnienia bezpieczeństwa.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>

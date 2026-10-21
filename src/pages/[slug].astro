@@ -1,0 +1,143 @@
+---
+import { url } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import { categories, groupId, type Category } from '../data/oferta';
+
+export function getStaticPaths() {
+  return categories.map((category) => ({ params: { slug: category.slug }, props: { category } }));
+}
+
+const { category } = Astro.props as { category: Category };
+const related = categories.filter((c) => c.slug !== category.slug);
+---
+
+<Base title={category.title} description={category.seoDescription} image={category.image}>
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Okruszki">
+        <a href={url('/')}>Strona główna</a><span aria-hidden="true">/</span>
+        <a href={url('/#oferta')}>Oferta</a><span aria-hidden="true">/</span>
+        <span aria-current="page">{category.title}</span>
+      </nav>
+      <div class="page-hero__grid">
+        <div>
+          <Icon name={category.slug} />
+          <h1>{category.title}</h1>
+          <p class="lead">{category.intro}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:36px">
+            <a class="btn" href="#wycena"><Icon name="arrow" class="arrow" /> Bezpłatna wycena</a>
+            {category.groups.length > 1 && <a class="btn btn--ghost" href="#produkty">Zobacz produkty</a>}
+          </div>
+        </div>
+        {category.image ? (
+          <div class={`page-hero__img photo ${category.imageFit === 'contain' ? 'page-hero__img--contain' : ''}`}>
+            <img src={url(category.image)} alt={category.title} width="1000" height="800" fetchpriority="high" />
+          </div>
+        ) : (
+          <div class="page-hero__img page-hero__img--icon"><Icon name={category.slug} /></div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  {category.features && (
+    <section class="section--tight" style="padding-block:clamp(40px,5vw,72px) 0">
+      <div class="container">
+        <ul class="feature-list reveal">
+          {category.features.map((f) => (
+            <li><Icon name="check" class="" /><span>{f}</span></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <section class="section" id="produkty">
+    <div class="container">
+      {category.groups.length > 1 && (
+        <div class="product-nav">
+          {category.groups.map((g) => <a class="chip" href={`#${groupId(g)}`}>{g.name}</a>)}
+        </div>
+      )}
+
+      {category.groups.map((group) => (
+        !group.products && !group.gallery ? (
+          <div class="group group--text" id={groupId(group)}>
+            <div class="group__head reveal">
+              {group.logo && <div class="group__logo"><img src={url(group.logo)} alt={group.name} loading="lazy" /></div>}
+              <h2>{group.name}</h2>
+            </div>
+            <div class="group__text reveal">
+              {group.description?.map((p) => <p>{p}</p>)}
+              {group.bullets && <ul>{group.bullets.map((b) => <li>{b}</li>)}</ul>}
+              <div style="display:flex;flex-wrap:wrap;gap:12px 28px">
+                {group.links?.map((l) => (
+                  <a class="link-arrow" href={url(l.href)} target={l.href.startsWith('http') ? '_blank' : undefined} rel="noopener">{l.label} <Icon name="arrow" class="" /></a>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+        <div class="group" id={groupId(group)}>
+          <div class="group__head reveal">
+            {group.logo && <div class="group__logo"><img src={url(group.logo)} alt={group.name} loading="lazy" /></div>}
+            <h2>{group.name}</h2>
+            {group.description?.map((p) => <p>{p}</p>)}
+            {group.bullets && <ul>{group.bullets.map((b) => <li>{b}</li>)}</ul>}
+            {group.links?.map((l) => (
+              <a class="link-arrow" href={url(l.href)} target="_blank" rel="noopener">{l.label} <Icon name="arrow" class="" /></a>
+            ))}
+          </div>
+
+          <div style="display:grid;gap:36px;align-content:start">
+            {group.products && (
+              <div class="products">
+                {group.products.map((p) => (
+                  <article class="product reveal">
+                    {p.image ? (
+                      <div class={`product__img ${p.fit === 'contain' ? 'product__img--contain' : ''}`}>
+                        <img src={url(p.image)} alt={`${p.name} – ${category.title.toLowerCase()}`} loading="lazy" />
+                      </div>
+                    ) : (
+                      <div class="product__img product__img--icon"><Icon name={category.slug} /></div>
+                    )}
+                    <div class="product__body">
+                      <h3>{p.name}</h3>
+                      {p.description && <p>{p.description}</p>}
+                      {p.bullets && <ul>{p.bullets.map((b) => <li>{b}</li>)}</ul>}
+                      {p.specs && <div class="specs">{p.specs.map((s) => <span>{s}</span>)}</div>}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
+
+            {group.gallery && (
+              <div class={`gallery reveal ${group.galleryFit === 'contain' ? 'gallery--contain' : ''}`}>
+                {group.gallery.map((src) => (
+                  <figure><img src={url(src)} alt={`${group.name} – przykładowy model`} loading="lazy" /></figure>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+        )
+      ))}
+    </div>
+  </section>
+
+  <QuoteForm title={`Zapytaj o ${category.title.toLowerCase()}`} preselect={category.slug} />
+
+  <section class="section section--tight">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Kompleksowo dla Twojego domu</span><h2>Zobacz też</h2></div>
+      <div class="related">
+        {related.map((c) => (
+          <a href={url(`/${c.slug}/`)}><Icon name={c.slug} class="icon" />{c.title}</a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,17 @@
+export const partners: { name: string; logo: string }[] = [
+  { name: 'Drutex', logo: '/img/partnerzy/drutex.png' },
+  { name: 'Wiśniowski', logo: '/img/partnerzy/wisniowski.png' },
+  { name: 'Hörmann', logo: '/img/partnerzy/hormann.png' },
+  { name: 'Fakro', logo: '/img/partnerzy/fakro.png' },
+  { name: 'Velux', logo: '/img/partnerzy/velux.png' },
+  { name: 'DRE', logo: '/img/partnerzy/dre.png' },
+  { name: 'Erkado', logo: '/img/partnerzy/erkado.png' },
+  { name: 'Porta', logo: '/img/partnerzy/porta.png' },
+  { name: 'Pol-Skone', logo: '/img/partnerzy/pol-skone.png' },
+  { name: 'Centurion', logo: '/img/partnerzy/centurion.png' },
+  { name: 'Wikęd', logo: '/img/partnerzy/wiked.png' },
+  { name: 'KMT', logo: '/img/partnerzy/kmt.png' },
+  { name: 'Anwis', logo: '/img/partnerzy/anwis.png' },
+  { name: 'Expander', logo: '/img/partnerzy/expander.png' },
+  { name: 'Alior Bank', logo: '/img/partnerzy/alior-bank.png' },
+];

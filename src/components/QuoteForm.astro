@@ -1,0 +1,122 @@
+---
+import { url } from '../lib/url';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import { categories } from '../data/oferta';
+
+interface Props {
+  title?: string;
+  preselect?: string;
+}
+const { title = 'Potrzebujesz bezpłatnej wyceny?', preselect } = Astro.props;
+const isPreview = import.meta.env.PUBLIC_PREVIEW === 'true';
+---
+
+<section class="section section--soft" id="wycena">
+  <div class="container quote">
+    <div class="quote__aside reveal">
+      <span class="eyebrow">Doradzamy, mierzymy, montujemy</span>
+      <h2>{title}</h2>
+      <p class="lead" style="margin-top:18px">
+        Zostaw numer telefonu lub opisz, czego potrzebujesz. Oddzwonimy, doradzimy i przygotujemy ofertę – bez zobowiązań.
+      </p>
+      <ul class="contact-list">
+        <li>
+          <Icon name="phone" class="" />
+          <div><small>Wolisz zadzwonić?</small><a href={site.phoneHref}>{site.phone}</a></div>
+        </li>
+        <li>
+          <Icon name="pin" class="" />
+          <div><small>Zapraszamy do salonu</small><span>{site.address.street}, {site.address.city}</span></div>
+        </li>
+        {site.hours && (
+          <li>
+            <Icon name="clock" class="" />
+            <div><small>Godziny otwarcia</small><span>{site.hours}</span></div>
+          </li>
+        )}
+      </ul>
+    </div>
+
+    <form class="form reveal" action={url('/kontakt.php')} method="post" data-quote-form data-preview={isPreview ? 'true' : undefined} novalidate>
+      <div class="form__row">
+        <div class="field">
+          <label for="f-name">Imię</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Jak mamy się do Ciebie zwracać?" />
+        </div>
+        <div class="field">
+          <label for="f-phone">Telefon *</label>
+          <input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="np. 600 100 200" required />
+        </div>
+      </div>
+      <div class="form__row">
+        <div class="field">
+          <label for="f-email">E-mail</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" placeholder="adres@email.pl" />
+        </div>
+        <div class="field">
+          <label for="f-topic">Czego dotyczy zapytanie?</label>
+          <select id="f-topic" name="topic">
+            <option value="">Wybierz (opcjonalnie)</option>
+            {categories.map((c) => <option selected={c.slug === preselect}>{c.title}</option>)}
+            <option>Kilka produktów / kompleksowo</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="f-msg">Wiadomość</label>
+        <textarea id="f-msg" name="message" rows="4" placeholder="Np. wymiana 6 okien w domu jednorodzinnym, miejscowość…"></textarea>
+      </div>
+      <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <label class="consent">
+        <input type="checkbox" name="consent" value="1" required />
+        <span>
+          Wyrażam zgodę na przetwarzanie moich danych osobowych przez {site.legalName} w celu odpowiedzi na zapytanie.
+          Więcej w <a href={url('/polityka-prywatnosci/')}>polityce prywatności</a>.
+        </span>
+      </label>
+      <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+        <button class="btn" type="submit">Wyślij zapytanie <Icon name="arrow" class="arrow" /></button>
+        <p class="form__status" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-quote-form]').forEach((form) => {
+    const status = form.querySelector<HTMLParagraphElement>('.form__status')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+
+    const show = (msg: string, ok: boolean) => {
+      status.textContent = msg;
+      status.className = `form__status ${ok ? 'is-ok' : 'is-error'}`;
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const phone = String(data.get('phone') || '').replace(/\D/g, '');
+      if (phone.length < 9) return show('Podaj poprawny numer telefonu.', false);
+      if (!data.get('consent')) return show('Zaznacz zgodę na przetwarzanie danych.', false);
+
+      if (form.dataset.preview) {
+        return show('To podgląd strony – formularz zacznie wysyłać wiadomości po publikacji na docelowym serwerze.', true);
+      }
+
+      button.disabled = true;
+      show('Wysyłanie…', true);
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok || !json.ok) throw new Error(json.error);
+        form.reset();
+        show('Dziękujemy! Oddzwonimy najszybciej, jak to możliwe.', true);
+      } catch (err) {
+        show((err as Error).message || 'Nie udało się wysłać. Zadzwoń do nas – chętnie pomożemy.', false);
+      } finally {
+        button.disabled = false;
+      }
+    });
+  });
+</script>

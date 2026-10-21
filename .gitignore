@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+.claude/
+
+# raw material scraped from the old WordPress site (large); optimised images live in public/img
+_tresci/

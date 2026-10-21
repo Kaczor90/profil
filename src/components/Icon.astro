@@ -1,0 +1,117 @@
+---
+// Line icons. Product icons use a 64x64 grid with a small red ring as the brand accent
+// (a nod to the red "o" in the Profil logo); UI icons use a 24x24 grid.
+interface Props {
+  name: string;
+  class?: string;
+  label?: string;
+}
+const { name, class: className = 'icon', label } = Astro.props;
+
+const product: Record<string, string> = {
+  okna: `
+    <rect x="8" y="12" width="40" height="44" rx="1.5"/>
+    <rect x="13" y="17" width="30" height="34"/>
+    <path d="M28 17v34M13 31h15M33 32v6"/>`,
+  'okna-dachowe': `
+    <path d="M4 54h56"/>
+    <path d="M12 54 22 18h30L42 54"/>
+    <path d="M18 48 25 24h21l-7 24Z"/>
+    <path d="M21 36h21"/>`,
+  'drzwi-zewnetrzne': `
+    <path d="M8 58h48"/>
+    <rect x="16" y="8" width="32" height="50" rx="1.5"/>
+    <rect x="22" y="14" width="20" height="14" rx="1"/>
+    <path d="M22 34h14M22 40h14M22 46h14"/>
+    <path d="M42 33v8"/>`,
+  'drzwi-wewnetrzne': `
+    <path d="M8 58h48"/>
+    <path d="M14 58V8h34v50"/>
+    <path d="M14 8l20 6v42l-20 2"/>
+    <circle cx="29" cy="35" r="1.6"/>`,
+  'bramy-garazowe': `
+    <path d="M4 28 32 9l28 19"/>
+    <path d="M10 24v34M54 24v34"/>
+    <rect x="15" y="30" width="34" height="28" rx="1"/>
+    <path d="M15 37h34M15 44h34M15 51h34"/>`,
+  'oslony-zewnetrzne': `
+    <rect x="8" y="8" width="48" height="9" rx="1.5"/>
+    <path d="M11 17v40M53 17v40"/>
+    <path d="M11 23h42M11 29h42M11 35h42M11 41h42"/>
+    <path d="M11 46h42"/>
+    <path d="M14 46v11M50 46v11"/>`,
+  'oslony-wewnetrzne': `
+    <rect x="9" y="8" width="42" height="6" rx="1.5"/>
+    <path d="M12 20h36M12 26h36M12 32h36M12 38h36M12 44h36"/>
+    <path d="M10 50h40"/>
+    <path d="M30 14v36"/>
+    <path d="M55 11v38"/>
+    <circle cx="55" cy="52" r="2.5"/>`,
+  'parapety-wewnetrzne': `
+    <rect x="12" y="8" width="40" height="34" rx="1"/>
+    <path d="M32 8v34M17 13h10v24H17zM37 13h10v24H37z"/>
+    <path d="M6 42h52v6H6z"/>
+    <path d="M40 42v-5a4 4 0 0 1 8 0v5"/>
+    <path d="M44 33c0-4 3-6 6-6-1 3-3 5-6 6Z"/>`,
+  'parapety-zewnetrzne': `
+    <rect x="12" y="8" width="40" height="32" rx="1"/>
+    <path d="M32 8v32"/>
+    <path d="M8 40h48l4 8H4Z"/>
+    <path d="M14 54v4M26 54v4M38 54v4M50 54v4"/>`,
+  klamki: `
+    <rect x="20" y="8" width="13" height="48" rx="6.5"/>
+    <circle cx="26.5" cy="22" r="4.5"/>
+    <path d="M26.5 17.5h25a4.5 4.5 0 0 1 0 9h-25"/>
+    <path d="M26.5 40v6"/>
+    <circle cx="26.5" cy="39" r="2"/>`,
+  montaz: `
+    <path d="M40 8a12 12 0 0 0-11 16.5L9 44.5a4.6 4.6 0 0 0 6.5 6.5l20-20A12 12 0 0 0 52 20l-7 7-7-1.5L36.5 18.5l7-7A12 12 0 0 0 40 8Z"/>
+    <circle cx="12.5" cy="47.5" r="1"/>`,
+  pomiar: `
+    <rect x="6" y="22" width="52" height="20" rx="2"/>
+    <path d="M14 22v8M22 22v5M30 22v8M38 22v5M46 22v8M54 22v5"/>`,
+  doradztwo: `
+    <path d="M10 14h36a4 4 0 0 1 4 4v20a4 4 0 0 1-4 4H26l-10 8v-8h-6a4 4 0 0 1-4-4V18a4 4 0 0 1 4-4Z"/>
+    <path d="M16 25h24M16 32h16"/>`,
+  raty: `
+    <rect x="6" y="16" width="48" height="32" rx="3"/>
+    <path d="M6 25h48M14 38h12"/>`,
+};
+
+const ui: Record<string, string> = {
+  arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  'arrow-left': '<path d="M19 12H5M11 6l-6 6 6 6"/>',
+  chevron: '<path d="m6 9 6 6 6-6"/>',
+  phone: '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+  pin: '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  menu: '<path d="M4 7h16M4 12h16M4 17h10"/>',
+  close: '<path d="M6 6l12 12M18 6 6 18"/>',
+  check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+  route: '<circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H16a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h7.5"/>',
+  doc: '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/>',
+  facebook: '<path fill="currentColor" stroke="none" d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.6-1.5h1.6V4.4a21 21 0 0 0-2.4-.1c-2.4 0-4 1.4-4 4.1v2.2H7.7v3h2.6V21z"/>',
+};
+
+const isProduct = name in product;
+const body = isProduct ? product[name] : ui[name] ?? '';
+const viewBox = isProduct ? '0 0 64 64' : '0 0 24 24';
+const strokeWidth = isProduct ? 1.75 : 1.8;
+---
+
+<svg
+  class={className}
+  viewBox={viewBox}
+  fill="none"
+  stroke="currentColor"
+  stroke-width={strokeWidth}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden={label ? undefined : 'true'}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+>
+  <Fragment set:html={body} />
+  {isProduct && <circle class="accent" cx="54" cy="10" r="6" stroke-width="2.25" />}
+</svg>

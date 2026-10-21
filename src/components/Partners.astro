@@ -1,0 +1,20 @@
+---
+import { url } from '../lib/url';
+import { partners } from '../data/partners';
+---
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="section-head section-head--split">
+      <div>
+        <span class="eyebrow">Sprawdzone marki</span>
+        <h2>Współpracujemy z zaufanymi producentami</h2>
+      </div>
+    </div>
+    <div class="partners reveal">
+      {partners.map((p) => (
+        <div class="partner"><img src={url(p.logo)} alt={p.name} loading="lazy" /></div>
+      ))}
+    </div>
+  </div>
+</section>

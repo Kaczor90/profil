@@ -1,0 +1,29 @@
+---
+import { url } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import Location from '../components/Location.astro';
+---
+
+<Base title="Kontakt" description="Salon Profil w Płocku, al. Jana Pawła II 23C. Tel. 782 512 007. Bezpłatna wycena okien, drzwi, bram i rolet.">
+  <section class="page-hero page-hero--plain">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Okruszki">
+        <a href={url('/')}>Strona główna</a><span aria-hidden="true">/</span><span aria-current="page">Kontakt</span>
+      </nav>
+      <span class="eyebrow">Kontakt</span>
+      <h1>Porozmawiajmy o Twoim projekcie</h1>
+      <p class="lead" style="max-width:640px">
+        Zadzwoń, napisz albo odwiedź nasz salon. Doradzimy, umówimy pomiar i przygotujemy bezpłatną wycenę.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <Location />
+    </div>
+  </section>
+
+  <QuoteForm title="Wyślij zapytanie" />
+</Base>

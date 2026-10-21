@@ -1,0 +1,60 @@
+---
+import { url } from '../lib/url';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import { categories } from '../data/oferta';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <a class="footer-logo" href={url('/')}><img src={url('/img/logo-white.png')} alt={site.name} width="160" height="46" loading="lazy" /></a>
+        <p>{site.footerAbout}</p>
+        <a class="social-link" href={site.facebook} target="_blank" rel="noopener" aria-label="Profil na Facebooku"><Icon name="facebook" class="" /></a>
+      </div>
+
+      <div>
+        <h3>Oferta</h3>
+        <ul>
+          {categories.slice(0, 5).map((c) => <li><a href={url(`/${c.slug}/`)}>{c.title}</a></li>)}
+        </ul>
+      </div>
+
+      <div>
+        <h3>&nbsp;</h3>
+        <ul>
+          {categories.slice(5).map((c) => <li><a href={url(`/${c.slug}/`)}>{c.title}</a></li>)}
+          <li><a href={url('/kredyty-i-raty/')}>Kredyty i raty</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Kontakt</h3>
+        <ul class="contact-list">
+          <li>
+            <Icon name="phone" class="" />
+            <div><small>Zadzwoń</small><a href={site.phoneHref}>{site.phone}</a></div>
+          </li>
+          {site.email && (
+            <li>
+              <Icon name="mail" class="" />
+              <div><small>Napisz</small><a href={`mailto:${site.email}`}>{site.email}</a></div>
+            </li>
+          )}
+          <li>
+            <Icon name="pin" class="" />
+            <div><small>{site.address.place}</small><span>{site.address.street}<br />{site.address.postalCode} {site.address.city}</span></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© {year} {site.legalName}. Wszelkie prawa zastrzeżone.</span>
+      <a href={url('/polityka-prywatnosci/')}>Polityka prywatności</a>
+    </div>
+  </div>
+</footer>

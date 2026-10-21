@@ -1,0 +1,19 @@
+---
+import { url } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<Base title="Nie znaleziono strony">
+  <section class="page-hero page-hero--plain">
+    <div class="container" style="padding-block:clamp(40px,8vw,120px)">
+      <span class="eyebrow">Błąd 404</span>
+      <h1>Tej strony już tu nie ma</h1>
+      <p class="lead" style="max-width:560px">Strona mogła zmienić adres po odświeżeniu serwisu. Zajrzyj do oferty albo po prostu zadzwoń – chętnie pomożemy.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:32px">
+        <a class="btn" href={url('/')}><Icon name="arrow" class="arrow" /> Strona główna</a>
+        <a class="btn btn--ghost" href={url('/kontakt/')}>Kontakt</a>
+      </div>
+    </div>
+  </section>
+</Base>

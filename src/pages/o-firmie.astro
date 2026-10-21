@@ -1,0 +1,88 @@
+---
+import { url } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import Partners from '../components/Partners.astro';
+import { hasPublicFile } from '../lib/assets';
+
+const salonPhoto = hasPublicFile('img/salon-pion.webp');
+
+const values = [
+  { icon: 'doradztwo', title: 'Doradztwo techniczne', text: 'Pomagamy wybrać rozwiązanie dopasowane do budynku, budżetu i Twoich potrzeb – nie tylko sprzedajemy produkt.' },
+  { icon: 'pomiar', title: 'Pomiar u klienta', text: 'Przyjeżdżamy na miejsce i dokładnie mierzymy otwory, żeby wszystko pasowało za pierwszym razem.' },
+  { icon: 'montaz', title: 'Demontaż i montaż', text: 'Usuwamy stare okna, drzwi czy parapety i fachowo montujemy nowe – kompleksowo, w jednym zleceniu.' },
+];
+---
+
+<Base title="O firmie" description="Profil to firma handlowo-usługowa z Płocka działająca od 2014 roku. Sprzedaż, pomiar i montaż okien, drzwi, bram garażowych, rolet i parapetów.">
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Okruszki">
+        <a href={url('/')}>Strona główna</a><span aria-hidden="true">/</span><span aria-current="page">O firmie</span>
+      </nav>
+      <div class="page-hero__grid">
+        <div>
+          <span class="eyebrow">Działamy od 2014 roku</span>
+          <h1>Kompleksowo wyposażamy domy w okna, drzwi i osłony</h1>
+          <p class="lead">
+            Jesteśmy firmą handlowo-usługową z branży budowlanej. Zajmujemy się sprzedażą, pomiarem u klienta oraz fachowym montażem. Obsługujemy klientów indywidualnych i inwestycje.
+          </p>
+        </div>
+        <div class="page-hero__img">
+          <img src={url('/img/o-firmie.webp')} alt="Jasne wnętrze z dużymi oknami" width="900" height="620" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div class="prose reveal">
+        <span class="eyebrow">Kim jesteśmy</span>
+        <h2 style="margin-top:0">Nie tylko produkt, ale też pomoc w jego wyborze</h2>
+        <p>
+          Firma <strong>PROFIL</strong> powstała na początku 2014 roku. Głównym profilem naszej działalności jest kompleksowe wyposażenie domów, mieszkań, biur oraz obiektów przemysłowych w okna, drzwi, bramy garażowe, rolety zewnętrzne, okna dachowe, parapety oraz markizy. Mamy też szeroki wybór wewnętrznych systemów osłon okiennych i moskitier.
+        </p>
+        <p>
+          Zapewniamy kompleksową obsługę: klient może liczyć na fachowy pomiar i montaż, a także demontaż starych elementów. Wysoka jakość oferowanych produktów i doradztwo techniczne stały się podstawą naszego rozwoju.
+        </p>
+        <p>
+          Współpracujemy z czołowymi producentami, takimi jak Drutex, Hörmann, Wiśniowski, KMT, Porta, Pol-Skone, DRE, Velux i Fakro. Stale dbamy o to, by oferowane produkty, jakość obsługi, nowe technologie i nasze doświadczenie przekładały się na Państwa zadowolenie.
+        </p>
+      </div>
+      <div class="split__img photo reveal">
+        {salonPhoto ? (
+          <img src={url('/img/salon-pion.webp')} alt="Salon Profil przy al. Jana Pawła II 23C w Płocku" width="1000" height="1100" loading="lazy" />
+        ) : (
+          <img src={url('/img/biuro.webp')} alt="Dom z oknami i drzwiami Drutex" width="900" height="720" loading="lazy" />
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft section--tight">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Co nas wyróżnia</span>
+        <h2>Jedna firma od wyboru do montażu</h2>
+      </div>
+      <div class="offer-grid">
+        {values.map((v) => (
+          <div class="offer-card reveal">
+            <Icon name={v.icon} />
+            <h3>{v.title}</h3>
+            <p>{v.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Partners />
+  <QuoteForm />
+</Base>
+
+<style>
+  @media (min-width: 900px) { .values { grid-template-columns: repeat(3, 1fr); } }
+</style>
