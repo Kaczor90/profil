@@ -28,9 +28,9 @@ const SITE = [
   ['drzwi_softline_68_dworek.jpg', 'biuro.webp', 1100, 880],
   ['house-1353389_1280-1.jpg', 'raty.webp', 1100, 760],
   ['baner-softline.jpg', '../og.jpg', 1200, 630],
-  // own photo of the salon – optional, skipped until the file exists
-  ['salon-nowy.jpg', 'salon.webp', 1200, 900],
-  ['salon-nowy.jpg', 'salon-pion.webp', 1000, 1100],
+  // own photo of the salon (paths containing '/' are relative to the project root)
+  ['Materialy/Salon/unnamed.webp', 'salon.webp', 1200, 900],
+  ['Materialy/Salon/unnamed.webp', 'salon-pion.webp', 1000, 1100, { left: 330, top: 0, width: 927, height: 1020 }],
 ];
 
 const LOGOS = [
@@ -67,14 +67,17 @@ const byBase = new Map(files.map((f) => [parse(f).name.toLowerCase(), f]));
 
 let count = 0;
 
-for (const [src, out, w, h] of SITE) {
-  if (!existsSync(join(SRC, src))) {
-    console.warn(`Pominięto ${out}: brak pliku ${SRC}/${src}`);
+for (const [src, out, w, h, crop] of SITE) {
+  const file = src.includes('/') ? src : join(SRC, src);
+  if (!existsSync(file)) {
+    console.warn(`Pominięto ${out}: brak pliku ${file}`);
     continue;
   }
   const target = join(OUT, out);
   // rotate() applies EXIF orientation, so phone photos are not sideways
-  const img = sharp(join(SRC, src)).rotate().resize(w, h, { fit: 'cover', position: 'attention' });
+  let img = sharp(file).rotate();
+  if (crop) img = img.extract(crop);
+  img = img.resize(w, h, { fit: 'cover', position: 'attention' });
   await (out.endsWith('.jpg') ? img.jpeg({ quality: 80, mozjpeg: true }) : img.webp({ quality: 78 })).toFile(target);
   count++;
 }
